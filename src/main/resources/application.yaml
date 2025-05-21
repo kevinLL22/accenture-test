@@ -1,0 +1,21 @@
+# application-prod.yaml
+spring:
+  # config.activate.on-profile: prod
+
+  r2dbc:
+    url: r2dbc:mysql://franchise-dev-mysql.czue8ousamfm.us-east-2.rds.amazonaws.com:3306:3306/appdb
+    username: ${DB_USER}
+    password: ${DB_PASS}
+
+  # Flyway,
+  flyway:
+    enabled: true
+    url: jdbc::mysql://franchise-dev-mysql.czue8ousamfm.us-east-2.rds.amazonaws.com:3306:3306/appdb
+    user: ${DB_USER}
+    password: ${DB_PASS}
+
+# other config
+management:
+  endpoints:
+    web:
+      exposure: health,info

@@ -1,0 +1,10 @@
+project            = "franchise"
+environment        = "dev"
+aws_region         = ""
+vpc_id             = "vpc-1234"
+private_subnet_ids = ["subnet-1234","subnet-1234"]
+db_name            = "appdb"
+db_username        = "appuser"
+api_sg_id          = "sg-1234"
+
+Cambiar a valores reales y eliminar el .example
