@@ -1,5 +1,7 @@
 package co.kevinll.franchise_service.service;
 
+import co.kevinll.franchise_service.dto.BranchProductResponse;
+import co.kevinll.franchise_service.model.Branch;
 import co.kevinll.franchise_service.model.Product;
 import co.kevinll.franchise_service.repository.BranchRepository;
 import co.kevinll.franchise_service.repository.ProductRepository;
@@ -41,12 +43,31 @@ public class ProductService {
         return productRepo.deleteById(id);
     }
 
+    public Flux<BranchProductResponse> findMaxStockProductByFranchise(Long franchiseId) {
+        return branchRepo.findByFranchiseId(franchiseId)
+                .flatMap(branch ->
+                        productRepo.findTopByBranchIdOrderByStockDesc(branch.getId())
+                                .map(prod -> mapToResponse(branch, prod))
+                );
+    }
+
+
     /* --- helpers --- */
     private Mono<Void> validateBranch(Long branchId) {
         return branchRepo.existsById(branchId)
                 .flatMap(exists -> exists
                         ? Mono.empty()
                         : Mono.error(new IllegalArgumentException("Branch not found: " + branchId)));
+    }
+
+    private BranchProductResponse mapToResponse(Branch branch, Product prod) {
+        return new BranchProductResponse(
+                branch.getId(),
+                branch.getName(),
+                prod.getId(),
+                prod.getName(),
+                prod.getStock()
+        );
     }
 }
 

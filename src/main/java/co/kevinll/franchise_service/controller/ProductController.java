@@ -1,5 +1,6 @@
 package co.kevinll.franchise_service.controller;
 
+import co.kevinll.franchise_service.dto.BranchProductResponse;
 import co.kevinll.franchise_service.model.Product;
 import co.kevinll.franchise_service.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -47,5 +48,11 @@ public class ProductController {
     public Mono<Void> delete(@PathVariable Long id) {
         return svc.delete(id);
     }
+
+    @GetMapping("/by-franchise/{franchiseId}/max-stock")
+    public Flux<BranchProductResponse> maxStockByFranchise(@PathVariable Long franchiseId) {
+        return svc.findMaxStockProductByFranchise(franchiseId);
+    }
+
 }
 
