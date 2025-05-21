@@ -30,7 +30,7 @@ public class FranchiseService {
     public Mono<Franchise> update(Long id, Franchise f) {
         return findOne(id)
                 .flatMap(existing ->
-                        repo.save(new Franchise(id, f.name()))
+                        repo.save(new Franchise(id, f.getName()))
                 );
     }
 
