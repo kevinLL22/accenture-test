@@ -146,7 +146,7 @@ api_sg_id          = "sg-1234"
 Cambiar a valores reales y eliminar el ".example" del archivo
 ```
 
-### 5. Comandos Terraform 🚀
+### 5. Comandos Terraform
 
 ```bash
 cd infra/mysql
@@ -187,4 +187,46 @@ management:
 
 Configura las variables de entorno (`R2DBC_URL`, `DB_USER`, `DB_PASS`, etc.) en tu despliegue.
 
+----------------
+
+## Uso de la API
+
+La API está disponible en `http://localhost:8080` (perfil `dev`) o en la URL de tu entorno (perfil `prod`). A continuación se describen los endpoints agrupados por recurso.
+
+### Franquicias (`/api/franchises`)
+
+| Método | Ruta                   | Descripción           | Cuerpo JSON                                | Código | Respuesta                                                               |
+| ------ | ---------------------- | --------------------- | ------------------------------------------ | ------ | ----------------------------------------------------------------------- |
+| POST   | `/api/franchises`      | Crear franquicia      | `{ "name": "Tienda A"}`  | 201    | `{ "id": 1, "name": "Tienda A" }` |
+| GET    | `/api/franchises`      | Listar todas          | —                                          | 200    | `[ {...}, {...} ]`                                                      |
+| GET    | `/api/franchises/{id}` | Obtener por ID        | —                                          | 200    | `{ "id":1, ... }`                                                       |
+| PUT    | `/api/franchises/{id}` | Actualizar franquicia | `{ "name": "Tienda B"}` | 200    | `{ "id":1, "name":"Tienda B"}`                  |
+| DELETE | `/api/franchises/{id}` | Eliminar franquicia   | —                                          | 204    | —                                                                       |
+
+
+### Sucursales (`/api/branches`)
+
+| Método | Ruta                                       | Descripción                         | Cuerpo JSON                                  | Código | Respuesta                                              |
+| ------ | ------------------------------------------ | ----------------------------------- | -------------------------------------------- | ------ | ------------------------------------------------------ |
+| POST   | `/api/branches`                            | Crear sucursal                      | `{ "name": "Sucursal 1", "franchiseId": 1 }` | 201    | `{ "id": 10, "name": "Sucursal 1", "franchiseId": 1 }` |
+| GET    | `/api/branches`                            | Listar todas                        | —                                            | 200    | `[ {...}, {...} ]`                                     |
+| GET    | `/api/branches/{id}`                       | Obtener por ID                      | —                                            | 200    | `{ "id":10, ... }`                                     |
+| PUT    | `/api/branches/{id}`                       | Actualizar sucursal                 | `{ "name": "Sucursal X", "franchiseId": 1 }` | 200    | `{ "id":10, "name":"Sucursal X", ...}`                 |
+| DELETE | `/api/branches/{id}`                       | Eliminar sucursal                   | —                                            | 204    | —                                                      |
+| GET    | `/api/branches/by-franchise/{franchiseId}` | Listar sucursales de una franquicia | —                                            | 200    | `[ {...}, {...} ]`                                     |
+
+
+### Productos (`/api/products`)
+
+| Método | Ruta                                                 | Descripción                             | Cuerpo JSON                                              | Código | Respuesta                                                       |
+| ------ | ---------------------------------------------------- | --------------------------------------- | -------------------------------------------------------- | ------ | --------------------------------------------------------------- |
+| POST   | `/api/products`                                      | Crear producto                          | `{ "name": "Producto A", "stock": 100, "branchId": 10 }` | 201    | `{ "id": 5, "name": "Producto A", "stock":100, "branchId":10 }` |
+| GET    | `/api/products`                                      | Listar todos los productos              | —                                                        | 200    | `[ {...}, {...} ]`                                              |
+| GET    | `/api/products/{id}`                                 | Obtener producto por ID                 | —                                                        | 200    | `{ "id":5, ... }`                                               |
+| GET    | `/api/products/by-branch/{branchId}`                 | Listar productos de una sucursal        | —                                                        | 200    | `[ {...}, {...} ]`                                              |
+| PUT    | `/api/products/{id}`                                 | Actualizar producto                     | `{ "name": "Producto B", "stock": 80, "branchId": 10 }`  | 200    | `{ "id":5, "name":"Producto B", ...}`                           |
+| DELETE | `/api/products/{id}`                                 | Eliminar producto                       | —                                                        | 204    | —                                                               |
+| GET    | `/api/products/by-franchise/{franchiseId}/max-stock` | Top producto por stock en cada sucursal | —                                                        | 200    | `[ {"branchId":10,...}, {...} ]`                                |
+
+---
 
