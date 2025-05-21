@@ -1,0 +1,18 @@
+spring:
+
+  r2dbc:
+    url: r2dbc:mysql://db:3306/devdb
+    username: root
+    password: root
+
+  flyway:
+    enabled: true
+    url: jdbc:mysql://db:3306/devdb
+    user: root
+    password: root
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
