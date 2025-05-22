@@ -243,5 +243,15 @@ La API está disponible en `http://localhost:8080` (perfil `dev`) o en la URL de
 | DELETE | `/api/products/{id}`                                 | Eliminar producto                       | —                                                        | 204    | —                                                               |
 | GET    | `/api/products/by-franchise/{franchiseId}/max-stock` | Top producto por stock en cada sucursal | —                                                        | 200    | `[ {"branchId":10,...}, {...} ]`                                |
 
----
+
+----------------
+
+## Ejemplos de uso de la API con BD en la nube
+
+### Crear una franquicia
+![img.png](png/img.png)
+
+### Listar franquicias
+![img_1.png](png/img_1.png)
+
 
