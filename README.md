@@ -36,15 +36,14 @@ export SPRING_PROFILES_ACTIVE=dev
 
 Los valores de conexión (usuario/contraseña) están hardcodeados para desarrollo en el Compose (root/root), pero en producción se inyectan desde Secrets Manager.
 
-## Flujo de ejecución local
+## Flujo de ejecución local (imagen de app y de mysql)
 
 1. **Clonar** el repositorio:
 
    ```bash
+   https://github.com/kevinLL22/accenture-test.git
    ```
 
-git clone [https://github.com/tu-org/franchise-service.git](https://github.com/kevinLL22/accenture-test.git)
-cd franchise-service
 
 ````
 2. **Construir** el JAR (opcional, Docker Compose lo hará en la build):
@@ -55,9 +54,8 @@ cd franchise-service
 3. **Arrancar** la API + MySQL:
 
    ```bash
+   docker compose up --build -d
    ```
-
-docker compose up --build
 
 ````
 4. **Verificar** salud de la API:
@@ -65,6 +63,23 @@ docker compose up --build
 curl http://localhost:8080/actuator/health
 # Debe devolver { "status": "UP", ... }
 ````
+
+---
+
+## Flujo de ejecución local (imagen de app y conexión a bd remota)
+
+1. **configurar** el archivo .env en la raíz del proyecto (ya existe un .env.example)
+ elimina el ".example" del nombre del archivo y en la variable DB_PASS agregar la key
+ de producción: "Contra_1Rds" <- sólo estára habilitada un par de días, en caso de querer usar la base de datos
+después de ese tiempo, comunicarlo por correo o por github.
+
+
+2. **Arrancar** la API:
+
+   ```bash
+   docker compose -f docker-compose-prod.yml up --build -d
+   ```
+(a diferencia del anterior, este archivo de compose no levanta el contenedor de mysql, sino que conecta a la base de datos remota)
 
 ---
 
@@ -77,7 +92,7 @@ curl http://localhost:8080/actuator/health
 * **Bucket S3** versionado y **tabla DynamoDB** creados para el backend remoto.
 * **Credenciales IAM** con permisos para RDS, EC2 (SG), IAM (Secrets Manager), S3 y DynamoDB.
 
-### Estructura de archivos IaC 🔨
+### Estructura de archivos IaC
 
 Crea la carpeta `infra/mysql/` en la raíz del proyecto con estos ficheros:
 

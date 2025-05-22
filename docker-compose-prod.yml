@@ -1,0 +1,20 @@
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: franchise-service-api:latest
+
+    # Carga variables en .env
+    env_file:
+      - .env
+
+    # Expone el puerto
+    ports:
+      - "8080:8080"
+
+    depends_on: []
+
+    restart: unless-stopped
+

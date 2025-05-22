@@ -3,19 +3,23 @@ spring:
   # config.activate.on-profile: prod
 
   r2dbc:
-    url: r2dbc:mysql://franchise-dev-mysql.czue8ousamfm.us-east-2.rds.amazonaws.com:3306:3306/appdb
+    url: r2dbc:mysql://franchise-dev-mysql.czue8ousamfm.us-east-2.rds.amazonaws.com:3306/appdb
     username: ${DB_USER}
     password: ${DB_PASS}
 
   # Flyway,
   flyway:
     enabled: true
-    url: jdbc::mysql://franchise-dev-mysql.czue8ousamfm.us-east-2.rds.amazonaws.com:3306:3306/appdb
+    url: jdbc:mysql://franchise-dev-mysql.czue8ousamfm.us-east-2.rds.amazonaws.com:3306/appdb
     user: ${DB_USER}
     password: ${DB_PASS}
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 # other config
 management:
   endpoints:
     web:
-      exposure: health,info
+      exposure:
+        include:
+          - health
+          - info
